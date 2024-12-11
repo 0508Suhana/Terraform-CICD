@@ -1,0 +1,14 @@
+# Ignore system files and directories
+AppData/
+AppData/Local/
+AppData/Local/Application Data/
+AppData/Local/Microsoft/Windows/
+*.bin
+*.log
+*.swp
+*.bak
+*.tmp
+*.exe
+NTUSER.DAT
+OneDrive
+
