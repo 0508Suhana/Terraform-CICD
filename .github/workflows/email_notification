@@ -1,0 +1,49 @@
+name: Workflow with Email Notification
+
+on:
+  workflow_dispatch: # Triggered manually or replace with "push" for automatic triggers
+
+jobs:
+  send-email-notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Approval Email
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }} # Store SendGrid API key in GitHub secrets
+          APPROVER_EMAIL: approver@example.com             # Replace with the specific approver email
+        run: |
+          curl --request POST \
+          --url https://api.sendgrid.com/v3/mail/send \
+          --header "Authorization: Bearer $SENDGRID_API_KEY" \
+          --header "Content-Type: application/json" \
+          --data '{
+            "personalizations": [
+              {
+                "to": [{"email": "'"$APPROVER_EMAIL"'"}],
+                "subject": "Approval Required for GitHub Workflow"
+              }
+            ],
+            "from": {"email": "no-reply@example.com"}, # Replace with a verified sender email
+            "content": [
+              {
+                "type": "text/plain",
+                "value": "Please log in to GitHub and approve the workflow in the manual_approval environment."
+              }
+            ]
+          }'
+
+  manual-approval:
+    needs: send-email-notification
+    runs-on: ubuntu-latest
+    environment: manual_approval # Requires environment approval in GitHub settings
+    steps:
+      - name: Wait for Approval
+        run: echo "Waiting for approval via GitHub environment."
+
+  post-approval-job:
+    needs: manual-approval
+    runs-on: ubuntu-latest
+    steps:
+      - name: Execute After Approval
+        run: echo "Approval received! Proceeding with the workflow."
+how  to test on private repo in github action
