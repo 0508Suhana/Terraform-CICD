@@ -5,3 +5,13 @@ ntuser.dat.LOG1
 ntuser.dat.LOG2
 NTUSER.DAT*
 .vscode/
+
+# Ignore configuration and system files
+.gitconfig
+.viminfo
+
+# Ignore user-specific directories
+AppData/
+Downloads/
+Terraform-CICD/
+Test/
