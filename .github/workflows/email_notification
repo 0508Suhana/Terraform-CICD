@@ -11,7 +11,7 @@ jobs:
       - name: Send Approval Email
         env:
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }} # Store SendGrid API key in GitHub secrets
-          APPROVER_EMAIL: approver@example.com             # Replace with the specific approver email
+          APPROVER_EMAIL: suhanasonker5000@gmail.com           # Replace with the specific approver email
         run: |
           curl --request POST \
           --url https://api.sendgrid.com/v3/mail/send \
